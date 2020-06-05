@@ -59,53 +59,20 @@ jobs:
           package_name: rating_server
 
   invoice_cli:
-    executor: rust-grpc-protoc
+    docker:
+      - image: circleci/node:13.10.1
     steps:
       - checkout
-      - build-service:
-          display_name: Invoice CLI
-          package_name: invoice_cli
+      - container-metrics/plot-resource-usage
       - run: echo $(timeout 20s yes > /dev/null)
 
 workflows:
   version: 2
   build:
     jobs:
-      - grpc_protocol:
-          pre-steps:
-            - container-metrics/plot-resource-usage
-          post-steps:
-            - container-metrics/upload-resource-usage-plot:
-              when: always
-      - analysis_server:
-          pre-steps:
-            - container-metrics/plot-resource-usage
-          post-steps:
-            - container-metrics/upload-resource-usage-plot
-          requires:
-            - grpc_protocol
-      - invoice_server:
-          pre-steps:
-            - container-metrics/plot-resource-usage
-          post-steps:
-            - container-metrics/upload-resource-usage-plot
-          requires:
-            - grpc_protocol
-      - rating_server:
-          pre-steps:
-            - container-metrics/plot-resource-usage
-          post-steps:
-            - container-metrics/upload-resource-usage-plot
-          requires:
-            - grpc_protocol
       - invoice_cli:
-          pre-steps:
-            - container-metrics/plot-resource-usage
           post-steps:
             - container-metrics/upload-resource-usage-plot
-          requires:
-            - grpc_protocol
-
 commands:
   gen-cache-key-vars:
     description: "Generate cache key files"

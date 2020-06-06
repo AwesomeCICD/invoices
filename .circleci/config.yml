@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
    multirepo: dnephin/multirepo@0.0.7
-   container-metrics: externalreality/container-metrics@0.0.1
+   container-metrics: externalreality/container-metrics@0.0.2
 
 executors:
   rust-grpc-protoc:

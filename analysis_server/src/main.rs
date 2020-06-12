@@ -15,7 +15,7 @@ mod service;
 use service::AnalysisService;
 
 fn main() {
-    let minutes = Duration::new(15 * 60, 0);
+    let minutes = Duration::new(15 * 61, 0);
     let env = Arc::new(Environment::new(1));
     let store = db::DetectDuplicateStore::new(minutes);
     let service = invoice_grpc::create_analysis(AnalysisService(store));

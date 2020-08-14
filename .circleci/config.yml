@@ -1,6 +1,8 @@
 version: 2.1
+
 orbs:
    multirepo: dnephin/multirepo@0.0.7
+   aws-ecr: circleci/aws-ecr@6.7.0
 executors:
   rust-grpc-protoc:
     docker:
@@ -67,6 +69,23 @@ jobs:
           display_name: Invoice CLI
           package_name: invoice_cli
 
+  deploy_from_behind_firewall:
+    machine: true
+    resource_class: AwesomeCICD/ecr_t3_medium
+    steps:
+      - checkout
+      - run: echo "HELLO BAA"
+      - run: sudo apt install python-pip -y
+      - run: git clone git@github.com:ExternalReality/somedockerfile.git dockerfiles
+      - aws-ecr/build-and-push-image:
+          account-url: AWS_ECR_ACCOUNT_URL
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          create-repo: true
+          region: AWS_REGION
+          repo: testrepo
+          path: dockerfiles
+
 workflows:
   version: 2
   build:
@@ -84,6 +103,11 @@ workflows:
       - invoice_cli:
           requires:
             - grpc_protocol
+      - deploy_from_behind_firewall:
+          requires:
+            - analysis_server
+            - rating_server
+            - invoice_server
 
 commands:
   gen-cache-key-vars:

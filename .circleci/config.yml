@@ -20,7 +20,8 @@ jobs:
           paths: "project/grpc_protocol"
       - run:
           name: Build GRPC Protobuf Protocols
-          command: cargo build -p grpc_protocol
+          command: |
+            cargo build -p grpc_protocol
       - persist_to_workspace:
           root: ./grpc_protocol
           paths:
@@ -94,6 +95,8 @@ workflows:
       - analysis_server:
           requires:
             - grpc_protocol
+          context:
+            - ""
       - invoice_server:
           requires:
             - grpc_protocol

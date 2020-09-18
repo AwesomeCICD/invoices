@@ -89,8 +89,8 @@ workflows:
   build:
     jobs:
       - grpc_protocol:
-        filters:
-          branches:
+          filters:
+           branches:
             ignore: master
       - analysis_server:
           requires:

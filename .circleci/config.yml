@@ -91,7 +91,7 @@ workflows:
       - grpc_protocol:
           filters:
            branches:
-            ignore: master
+            ignore: development
       - analysis_server:
           requires:
             - grpc_protocol

@@ -16,8 +16,6 @@ jobs:
       - run:
           name: Get Tools
           command: apt update && apt install git -yy
-      - multirepo/run-job-for-paths:
-          paths: "project/grpc_protocol"
       - run:
           name: Build GRPC Protobuf Protocols
           command: |

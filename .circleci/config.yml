@@ -88,14 +88,12 @@ jobs:
           path: dockerfiles
 
 workflows:
-  version: 2
   build:
     jobs:
       - grpc_protocol:
         filters:
           branches:
-            only:
-              - development
+            ignore: master
       - analysis_server:
           requires:
             - grpc_protocol

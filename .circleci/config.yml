@@ -91,7 +91,10 @@ workflows:
   version: 2
   build:
     jobs:
-      - grpc_protocol
+      - grpc_protocol:
+        filters:
+          branches:
+            only: develop
       - analysis_server:
           requires:
             - grpc_protocol

@@ -94,12 +94,11 @@ workflows:
       - grpc_protocol:
         filters:
           branches:
-            only: develop
+            only:
+              - development
       - analysis_server:
           requires:
             - grpc_protocol
-          context:
-            - ""
       - invoice_server:
           requires:
             - grpc_protocol
